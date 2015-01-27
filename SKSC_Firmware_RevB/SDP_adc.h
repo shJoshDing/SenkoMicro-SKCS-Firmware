@@ -35,6 +35,9 @@
 #define ADC_CONFIG_TO_MOUT				0x75
 #define ADC_CONFIG_TO_VCS				0x76
 
+#define ADC_TRIM_RESULT_PASS			0x77
+#define ADC_TRIM_RESULT_FAIL			0x78
+
 
 #define GPIO_1						0x0002
 #define GPIO_2						0x0004
@@ -47,7 +50,7 @@
 #define GPIO_9						0x1000
 #define GPIO_10						0x4000
 #define GPIO_11						0x0040
-//#define GPIO_12						0x0080
+#define GPIO_15						0x0800
 
 
 

@@ -350,6 +350,24 @@ static void adcSignalPath( u32 pathID )
 			flashLed();
 			#endif
 			break;
+			
+		case ADC_TRIM_RESULT_PASS:
+			*pPORTHIO_SET = GPIO_15;
+			ssync();
+			ssync();
+			#ifdef DEBUG
+			flashLed();
+			#endif
+			break;
+			
+		case ADC_TRIM_RESULT_FAIL:
+			*pPORTHIO_CLEAR = GPIO_15;
+			ssync();
+			ssync();
+			#ifdef DEBUG
+			flashLed();
+			#endif
+			break;
 					
 			
 			
@@ -556,11 +574,11 @@ void initialGpiosForSignalPath(void)
 	*pPORTHIO_DIR |= MODULE_15V_OUT;
 	*/
 	
-	*pPORTH_FER &= ~(GPIO_1|GPIO_2|GPIO_3|GPIO_4|GPIO_5|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_11);
-	*pPORTHIO_INEN &= ~(GPIO_1|GPIO_2|GPIO_3|GPIO_4|GPIO_5|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_11);
+	*pPORTH_FER &= ~(GPIO_1|GPIO_2|GPIO_3|GPIO_4|GPIO_5|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_11|GPIO_15);
+	*pPORTHIO_INEN &= ~(GPIO_1|GPIO_2|GPIO_3|GPIO_4|GPIO_5|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_11|GPIO_15);
 	
 	*pPORTHIO_CLEAR |= GPIO_1|GPIO_11|GPIO_5;
-	*pPORTHIO_SET |= GPIO_2|GPIO_3|GPIO_4|GPIO_7|GPIO_8|GPIO_9|GPIO_10;
+	*pPORTHIO_SET |= GPIO_2|GPIO_3|GPIO_4|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_15;
 	
 	*pPORTHIO_DIR |= (GPIO_1|GPIO_2|GPIO_3|GPIO_4|GPIO_5|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_11);
 	
