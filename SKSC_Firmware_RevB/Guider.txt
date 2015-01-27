@@ -1,0 +1,58 @@
+// I2C Commands
+#define ADI_SDP_CMD_GROUP_I2C               0xCA000300
+#define ADI_SDP_CMD_I2C_TRANSFER            0xCA000301
+#define ADI_SDP_CMD_GPIO_I2C		    0xCA000302	//This is for ADMP521
+
+// GPIO Commands
+#define ADI_SDP_CMD_GROUP_GPIO              0xCA000500
+#define ADI_SDP_CMD_GPIO_CONFIG_OUTPUT      0xCA000501
+#define ADI_SDP_CMD_GPIO_CONFIG_INPUT       0xCA000502
+#define ADI_SDP_CMD_GPIO_BIT_SET            0xCA000503
+#define ADI_SDP_CMD_GPIO_BIT_CLEAR          0xCA000504
+#define ADI_SDP_CMD_GPIO_BIT_TOGGLE         0xCA000505
+#define ADI_SDP_CMD_GPIO_DATA_WRITE         0xCA000506
+#define ADI_SDP_CMD_GPIO_DATA_READ          0xCA000507
+
+// SPORT Commands
+#define ADI_SDP_CMD_GROUP_SPORT             0xCA000400
+#define ADI_SDP_CMD_SPORT_TRANSFER          0xCA00040A
+#define ADI_SDP_CMD_SPORT_STREAM_FROM       0xCA00040B
+
+// SPI Commands
+#define ADI_SDP_CMD_GROUP_SPI               0xCA000200
+#define ADI_SDP_CMD_SPI_TRANSFER            0xCA000210
+#define ADI_SDP_CMD_SPI_EXTENDED_TRANSFER   0xCA000211
+
+#define ADI_SDP_CMD_GROUP_ASYNC_PAR         0xCA000700
+#define ADI_SDP_CMD_ASYNC_PAR_WRITE         0xCA000701
+#define ADI_SDP_CMD_ASYNC_PAR_READ          0xCA000702
+#define ADI_SDP_CMD_ASYNC_PAR_WRITE_CNVT    0xCA000703
+#define ADI_SDP_CMD_ASYNC_PAR_READ_CNVT     0xCA000704
+
+// PPI Commands
+#define ADI_SDP_CMD_GROUP_PPI               0xCA000600
+#define ADI_SDP_CMD_PPI_WRITE               0xCA000601
+#define ADI_SDP_CMD_PPI_READ                0xCA000602
+#define ADI_SDP_CMD_PPI_STREAM_FROM         0xCA000603
+
+// USER COMMANDS
+// The fist is not a command and should not be removed or renamed. The second
+// is a compulsory and should not be removed. The rest are examples and can be
+// renamed or removed. Further commands can be added. Values must be geater
+// than 0xF8000000 and less than 0xF8000100.
+#define ADI_SDP_CMD_GROUP_USER                     0xF8000000 // not a command
+#define ADI_SDP_CMD_USER_GET_GUID                  0xF8000001 // compulsory
+#define ADI_SDP_CMD_USER_EXAMPLE_GET_USER_VERSION  0xF8000002
+#define ADI_SDP_CMD_USER_EXAMPLE_NO_DATA           0xF8000003
+#define ADI_SDP_CMD_USER_EXAMPLE_DATA_DOWN         0xF8000004
+#define ADI_SDP_CMD_USER_EXAMPLE_DATA_UP           0xF8000005
+#define ADI_SDP_CMD_USER_EXAMPLE_DATA_DOWN_UP      0xF8000006
+
+// TIMER Commands
+#define ADI_SDP_CMD_GROUP_TIMER             0xCA000900
+#define ADI_SDP_CMD_TIMER_ENABLE            0xCA000901
+#define ADI_SDP_CMD_TIMER_DISABLE           0xCA000902
+#define ADI_SDP_CMD_TIMER_CONFIG	    0xCA000903
+#define	ADI_SDP_CMD_TIMER_UPDATE_PULSE	    0xCA000904
+#define ADI_SDP_CMD_TIMER_UPDATE_PERIOD	    0xCA000905
+
