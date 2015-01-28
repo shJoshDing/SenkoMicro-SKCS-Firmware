@@ -172,7 +172,7 @@ static void adcSignalPath( u32 pathID )
 			*pPORTHIO_CLEAR = ( GPIO_3|GPIO_2);
 			ssync();
 			ssync();
-			*pPORTHIO_SET = ( GPIO_11 );
+			*pPORTHIO_SET = ( GPIO_4 | GPIO_11 );
 			//flashLed();
 			//*pPORTHIO_CLEAR = RELAY_2;
 			//ssync();
@@ -190,7 +190,7 @@ static void adcSignalPath( u32 pathID )
 			*pPORTHIO_CLEAR = ( GPIO_11 );
 			ssync();
 			ssync();
-			*pPORTHIO_SET = ( GPIO_2|GPIO_3 );
+			*pPORTHIO_SET = ( GPIO_2|GPIO_3 | GPIO_4 );
 			//*pPORTHIO_CLEAR = RELAY_1;
 
 			//*pPORTHIO_SET = RELAY_2;
@@ -203,7 +203,7 @@ static void adcSignalPath( u32 pathID )
 			break;
 			
 		case ADC_CONFIG_TO_VREF:			//0X68
-			*pPORTHIO_CLEAR = ( GPIO_2|GPIO_3|GPIO_11 );
+			//*pPORTHIO_CLEAR = ( GPIO_2|GPIO_3|GPIO_11 );
 			//*pPORTHIO_SET = (RELAY_1|RELAY_2);
 			//*pPORTHIO_SET |= RELAY_2;
 			//adcSetConfigToVout( false );
@@ -273,7 +273,7 @@ static void adcSignalPath( u32 pathID )
 			break;
 			
 		case ADC_MODULE_510OUT:
-			*pPORTHIO_SET = GPIO_2 | GPIO_3 | GPIO_11;
+			//*pPORTHIO_SET = GPIO_2 | GPIO_3 | GPIO_11;
 			//*pPORTHIO_CLEAR = MODULE_15V_OUT;
 			//adcSetVddFromExt( false );
 			#ifdef DEBUG
@@ -282,10 +282,10 @@ static void adcSignalPath( u32 pathID )
 			break;			
 			
 		case ADC_MODULE_AMPOUT:
-			*pPORTHIO_CLEAR = ( GPIO_3|GPIO_11|GPIO_4);
+			//*pPORTHIO_CLEAR = ( GPIO_3|GPIO_11|GPIO_4);
 			ssync();
 			ssync();
-			*pPORTHIO_SET = ( GPIO_2 );
+			//*pPORTHIO_SET = ( GPIO_2 );
 			//*pPORTHIO_SET = MODULE_15V_OUT;
 			//adcSetVddFromExt( false );
 			#ifdef DEBUG
@@ -298,7 +298,7 @@ static void adcSignalPath( u32 pathID )
 			*pPORTHIO_CLEAR = ( GPIO_3|GPIO_2|GPIO_11);
 			ssync();
 			ssync();
-			//*pPORTHIO_SET = ( GPIO_2 );
+			*pPORTHIO_SET = ( GPIO_4 );
 			//*pPORTHIO_SET = MODULE_15V_OUT;
 			//adcSetVddFromExt( false );
 			#ifdef DEBUG
@@ -323,20 +323,20 @@ static void adcSignalPath( u32 pathID )
 			break;
 			
 		case ADC_VIN_TO_510OUT:
-			*pPORTHIO_SET = GPIO_2 | GPIO_4 | GPIO_11;
-			ssync();
-			ssync();
 			*pPORTHIO_CLEAR = GPIO_3;
+			ssync();
+			ssync();
+			*pPORTHIO_SET = GPIO_2 | GPIO_4 | GPIO_11;
 			#ifdef DEBUG
 			flashLed();
 			#endif
 			break;
 			
 		case ADC_VIN_TO_MOUT:
-			*pPORTHIO_SET = GPIO_2;
-			ssync();
-			ssync();
 			*pPORTHIO_CLEAR = GPIO_3 | GPIO_4 | GPIO_11;
+			ssync();
+			ssync();
+			*pPORTHIO_SET = GPIO_2;
 			#ifdef DEBUG
 			flashLed();
 			#endif
