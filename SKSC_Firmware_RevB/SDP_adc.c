@@ -241,18 +241,18 @@ static void adcSignalPath( u32 pathID )
 		case ADC_VDD_POWER_ON:	
 			if( bPowerVolt == true )
 			{
-				*pPORTHIO_SET = GPIO_8;
+				*pPORTHIO_SET = GPIO_8 | GPIO_10;
 				ssync();
 				//flashLed();
 				ssync();
-				*pPORTHIO_CLEAR = GPIO_7 | GPIO_9 | GPIO_10;
+				*pPORTHIO_CLEAR = GPIO_7 | GPIO_9;
 			}
 			else if( bPowerVolt == false )
 			{
-				*pPORTHIO_SET = GPIO_7;
+				*pPORTHIO_SET = GPIO_7 | GPIO_10;
 				ssync();
 				ssync();
-				*pPORTHIO_CLEAR = GPIO_8 | GPIO_9 | GPIO_10;		
+				*pPORTHIO_CLEAR = GPIO_8 | GPIO_9;		
 			}
 		
 			//*pPORTHIO_SET = RELAY_POWERON;
@@ -263,9 +263,11 @@ static void adcSignalPath( u32 pathID )
 			break;
 			
 		case ADC_VDD_POWER_OFF:					//0x6C
-			*pPORTHIO_SET = GPIO_8 | GPIO_7 | GPIO_9 | GPIO_10;
+			*pPORTHIO_CLEAR = GPIO_10;
 			//*pPORTHIO_SET = GPIO_7;
-			//*pPORTHIO_CLEAR = RELAY_POWERON;
+			ssync();
+			ssync();
+			*pPORTHIO_SET = GPIO_8 | GPIO_7 | GPIO_9 ;
 			//adcSetVddFromExt( false );
 			#ifdef DEBUG
 			flashLed();
