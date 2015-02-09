@@ -41,7 +41,7 @@ static SDP_VERSION version = {	0x0301,         // major rev
 								527,       // blackfin software rev		
 								__DATE__,  // date of build
 								__TIME__,  // time of build
-								0xf511,         // reserved
+								0xf515,         // reserved
 								0 };       // flags
 static void mainInit(void);
 void closeMainInit(void);
