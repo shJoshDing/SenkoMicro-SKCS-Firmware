@@ -19,6 +19,9 @@
 #define ADI_SDP_CMD_UART_SETVOLT		0x75
 #define ADI_SDP_CMD_UART_SETCURR		0x76
 
+#define HSPYSetCommandLength			11
+#define HSPYReadCommandLength			8
+
 
 void processUartCmd(SDP_USB_HEADER *pUsbHeader);
 

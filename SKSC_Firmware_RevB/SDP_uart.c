@@ -19,13 +19,20 @@ u8 uartInData;
 u8 uartOutData;
 
 
+u8 HSPYPowerOnOff[HSPYSetCommandLength] = {0x00,0x10,0x10,0x04,0x00,0x01,0x02,0x00,0x01,0x7A,0x45};
+u8 HSPYSetCommand[HSPYSetCommandLength] = {0x00,0x10,0x10,0x00,0x00,0x01,0x02,0x03,0xE8,0xBA,0xBF };
+
+
 
 static void uartInitilize( u32 bitRate, u32 stopBits);
 static void uartWrite( u32 uCommend, u32 uParameter);
 static void SendString ( u8 *pString );
 static void SendChar ( u8  cChar );
+static void SendHSPYCommand ( u8 nNum, u8 *pCommand);
+static void SendValue ( u8 uValue );
 static void uartCallback();
 static void HextoASCII ( u8 nHexValue );
+static u16 CRC16( u8 *arr_buff, u8 len);
 
 
 
@@ -189,8 +196,10 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			flashLed();
 			#endif
 			
-			pUartCommend = "OUTP 1\r\n";
-			SendString( pUartCommend );
+			//pUartCommend = "OUTP 1\r\n";
+			//SendString( pUartCommend );
+			//HSPYSetCommand[] = {0x00,0x10,0x10,0x04,0x00,0x01,0x02,0x00,0x01,0x7A,0x45};
+			SendHSPYCommand( HSPYSetCommandLength, HSPYPowerOnOff );
 
 			break;
 			
@@ -199,8 +208,9 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			flashLed();
 			#endif
 			
-			pUartCommend = "OUTP 0\r\n";
-			SendString( pUartCommend );
+			//pUartCommend = "OUTP 0\r\n";
+			//SendString( pUartCommend );
+			SendHSPYCommand( HSPYSetCommandLength, HSPYPowerOnOff );
 			
 			break;
 		
@@ -210,12 +220,23 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			#endif
 			
 			
-			pUartCommend = "VOLT ";
-			pUartParameter = "V\r\n";
+			//pUartCommend = "VOLT ";
+			//pUartParameter = "V\r\n";
 
-			SendString( pUartCommend );
-			HextoASCII( uParameter );
-			SendString( pUartParameter );
+			//SendString( pUartCommend );
+			//HextoASCII( uParameter );
+			//SendString( pUartParameter );
+			uParameter *= 100;
+			
+			HSPYSetCommand[3] = 0x00;
+			//HSPYSetCommand[7] = 0x00;
+ 			//HSPYSetCommand[8] = 0x64;
+ 			HSPYSetCommand[7] = uParameter>>8;
+ 			HSPYSetCommand[8] = uParameter;
+ 			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8; 
+ 			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2);
+ 			SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
+			
 			
 			break;
 			
@@ -224,22 +245,31 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			flashLed();
 			#endif
 			
-			pUartCommend = "CURR ";
-			pUartParameter = "A\r\n";
+			//pUartCommend = "CURR ";
+			//pUartParameter = "A\r\n";
 			
-			if(uParameter<10)
-			{
-				SendString( pUartCommend );
-				HextoASCII( uParameter );
-				SendString( pUartParameter );
-			}
-			else
-			{
-				SendString( pUartCommend );
-				HextoASCII( uParameter/10 );
-				HextoASCII( uParameter%10 );
-				SendString( pUartParameter );
-			}
+			//if(uParameter<10)
+			//{
+			//	SendString( pUartCommend );
+			//	HextoASCII( uParameter );
+			//	SendString( pUartParameter );
+			//}
+			//else
+			//{
+			//	SendString( pUartCommend );
+			//	HextoASCII( uParameter/10 );
+			//	HextoASCII( uParameter%10 );
+			//	SendString( pUartParameter );
+			//}
+			uParameter *= 1000;
+			HSPYSetCommand[3] = 0x01;
+			//HSPYSetCommand[7] = 0x4E;
+ 			//HSPYSetCommand[8] = 0x20;
+ 			HSPYSetCommand[7] = uParameter>>8;
+ 			HSPYSetCommand[8] = uParameter;
+ 			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8; 
+ 			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2);
+ 			SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
 			
 			break;
 					
@@ -298,6 +328,51 @@ static void SendChar ( u8  cChar )
 
 
 
+//---------------------------------------------------------------------------
+static void SendHSPYCommand ( u8 nNum, u8 *pCommand )
+{
+	u8 nIndex;
+	
+	for( nIndex = 0; nIndex < nNum; nIndex++)
+	{
+		SendValue( pCommand[nIndex] );
+	}
+
+}
+
+
+
+//----------------------------------------------------------------------------
+static void SendValue ( u8 uValue )
+{
+	u32 nDDSSResult = ADI_DEV_RESULT_SUCCESS;
+    /* To hold UART Transmit Holding register status */
+    u32 nTHRstatus = 0;
+
+    while (nDDSSResult == ADI_DEV_RESULT_SUCCESS)
+    {
+        /* IF (UART transmitter ready to accept next data?) */
+        if (nTHRstatus)
+        {     
+            /* send the next data */
+            uartOutData = uValue;
+            /* send the outbound buffer */
+            /* Submit Outbound buffer to UART */
+            adi_dev_Write(uartDriverHandle, ADI_DEV_1D, (ADI_DEV_BUFFER *)&uartOutBuffer);
+            /* exit this loop */
+            break;
+        }
+        /* ELSE (get Transmit holding register status) */
+        else
+        {
+            nDDSSResult = adi_dev_Control(uartDriverHandle, ADI_UART_CMD_GET_TEMT, (void *)&nTHRstatus);
+        }
+    }
+
+}
+
+
+
 
 //-----------------------------------------------------------------------------
 void uartCallback()
@@ -310,6 +385,25 @@ void HextoASCII ( u8 nHexValue )
 { 
     SendChar(nHexValue+0x30);
 }
+
+
+//-----------------------------------------------------------------------------
+u16 CRC16( u8 *arr_buff, u8 len)
+{ 
+	u16 crc=0xFFFF;
+  	u8 i,j;
+  	for(j=0; j<len; j++)
+  	{ crc = crc ^ * arr_buff++;
+    	for(i=0; i<8; i++)
+    	{ if((crc & 0x0001)>0){crc=crc>>1;crc=crc^0xa001;}
+       		else crc=crc>>1;
+     	}
+  	}
+  	return(crc);
+}
+
+
+
 
 
 
