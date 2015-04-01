@@ -228,15 +228,15 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			//SendString( pUartCommend );
 			//HextoASCII( uParameter );
 			//SendString( pUartParameter );
-			Voltage = uParameter * 100;
+			uParameter *= 100;
 			
 			HSPYSetCommand[3] = 0x00;
 			//HSPYSetCommand[7] = 0x00;
  			//HSPYSetCommand[8] = 0x64;
  			HSPYSetCommand[7] = uParameter>>8;
  			HSPYSetCommand[8] = uParameter;
- 			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2); 
- 			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8;
+ 			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8; 
+ 			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2);
  			SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
 			
 			
@@ -263,14 +263,14 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			//	HextoASCII( uParameter%10 );
 			//	SendString( pUartParameter );
 			//}
-			Current = uParameter * 100;
+			uParameter *= 1000;
 			HSPYSetCommand[3] = 0x01;
 			//HSPYSetCommand[7] = 0x4E;
  			//HSPYSetCommand[8] = 0x20;
  			HSPYSetCommand[7] = uParameter>>8;
  			HSPYSetCommand[8] = uParameter;
- 			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2); 
- 			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8;
+ 			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8; 
+ 			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2);
  			SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
 			
 			break;

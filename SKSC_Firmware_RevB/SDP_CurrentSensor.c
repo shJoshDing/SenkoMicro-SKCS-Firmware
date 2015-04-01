@@ -272,8 +272,10 @@ void FuseOn(SDP_USB_HEADER *pUsbHeader)
 	//*pTCNTL |= TAUTORLD;
 		
 	*pTSCALE = 0;							// cclk/(scale + 1) = 600M/(scale + 1) (ex: 600M/5 = 120M)
-	*pTPERIOD = (pUsbHeader->downByteCount)*1250;
-	*pTCOUNT = (pUsbHeader->downByteCount)*1250;
+	//*pTPERIOD = (pUsbHeader->downByteCount)*1250;			//1ns GUI = 2us FW
+	//*pTCOUNT = (pUsbHeader->downByteCount)*1250;
+	*pTPERIOD = (pUsbHeader->downByteCount)*156;			//1ns GUI = 0.25us FW
+	*pTCOUNT = (pUsbHeader->downByteCount)*156;
 	*pTCNTL |= TMREN;
 	ssync();
 }
