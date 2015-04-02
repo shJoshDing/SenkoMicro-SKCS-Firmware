@@ -54,7 +54,7 @@ void processUartCmd(SDP_USB_HEADER *pUsbHeader)
 			#endif
 			if (!bUartConfiged)
 			{
-				uartInitilize( 4800, 1);
+				uartInitilize( 9600, 1);
 			}
 			break; 
 			
@@ -233,8 +233,8 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			HSPYSetCommand[3] = 0x00;
 			//HSPYSetCommand[7] = 0x00;
  			//HSPYSetCommand[8] = 0x64;
- 			HSPYSetCommand[7] = uParameter>>8;
- 			HSPYSetCommand[8] = uParameter;
+ 			HSPYSetCommand[7] = Voltage>>8;
+ 			HSPYSetCommand[8] = Voltage;
  			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2); 
  			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8;
  			SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
@@ -267,8 +267,8 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			HSPYSetCommand[3] = 0x01;
 			//HSPYSetCommand[7] = 0x4E;
  			//HSPYSetCommand[8] = 0x20;
- 			HSPYSetCommand[7] = uParameter>>8;
- 			HSPYSetCommand[8] = uParameter;
+ 			HSPYSetCommand[7] = Current>>8;
+ 			HSPYSetCommand[8] = Current;
  			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2); 
  			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8;
  			SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
