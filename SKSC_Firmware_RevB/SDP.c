@@ -35,7 +35,7 @@ u8  latchValue;
 //u32 *pDutNumberAddress;
 //#define TRIMDUT_INDEX_ADDR	0x20300000		//ADDRESS TO STORE THE TRIMED DUT NUMBER
 
-static SDP_VERSION version = {	0x0301,         // major rev
+static SDP_VERSION version = {	0x0401,         // major rev
 								1,         // minor rev
 								570,       // host software rev
 								527,       // blackfin software rev		

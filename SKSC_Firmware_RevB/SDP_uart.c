@@ -222,22 +222,22 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			#endif
 			
 			
-			//pUartCommend = "VOLT ";
-			//pUartParameter = "V\r\n";
+			pUartCommend = "VOLT ";
+			pUartParameter = "V\r\n";
 
-			//SendString( pUartCommend );
-			//HextoASCII( uParameter );
-			//SendString( pUartParameter );
-			Voltage = uParameter * 100;
+			SendString( pUartCommend );
+			HextoASCII( uParameter );
+			SendString( pUartParameter );
+			//Voltage = uParameter * 100;
 			
-			HSPYSetCommand[3] = 0x00;
+			//HSPYSetCommand[3] = 0x00;
 			//HSPYSetCommand[7] = 0x00;
  			//HSPYSetCommand[8] = 0x64;
- 			HSPYSetCommand[7] = Voltage>>8;
- 			HSPYSetCommand[8] = Voltage;
- 			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2); 
- 			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8;
- 			SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
+ 			//HSPYSetCommand[7] = Voltage>>8;
+ 			//HSPYSetCommand[8] = Voltage;
+ 			//HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2); 
+ 			//HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8;
+ 			//SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
 			
 			
 			break;
@@ -247,31 +247,31 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			flashLed();
 			#endif
 			
-			//pUartCommend = "CURR ";
-			//pUartParameter = "A\r\n";
+			pUartCommend = "CURR ";
+			pUartParameter = "A\r\n";
 			
-			//if(uParameter<10)
-			//{
-			//	SendString( pUartCommend );
-			//	HextoASCII( uParameter );
-			//	SendString( pUartParameter );
-			//}
-			//else
-			//{
-			//	SendString( pUartCommend );
-			//	HextoASCII( uParameter/10 );
-			//	HextoASCII( uParameter%10 );
-			//	SendString( pUartParameter );
-			//}
-			Current = uParameter * 100;
-			HSPYSetCommand[3] = 0x01;
+			if(uParameter<10)
+			{
+				SendString( pUartCommend );
+				HextoASCII( uParameter );
+				SendString( pUartParameter );
+			}
+			else
+			{
+				SendString( pUartCommend );
+				HextoASCII( uParameter/10 );
+				HextoASCII( uParameter%10 );
+				SendString( pUartParameter );
+			}
+			//Current = uParameter * 100;
+			//HSPYSetCommand[3] = 0x01;
 			//HSPYSetCommand[7] = 0x4E;
  			//HSPYSetCommand[8] = 0x20;
- 			HSPYSetCommand[7] = Current>>8;
- 			HSPYSetCommand[8] = Current;
- 			HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2); 
- 			HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8;
- 			SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
+ 			//HSPYSetCommand[7] = Current>>8;
+ 			//HSPYSetCommand[8] = Current;
+ 			//HSPYSetCommand[9] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2); 
+ 			//HSPYSetCommand[10] = CRC16( HSPYSetCommand , HSPYSetCommandLength-2)>>8;
+ 			//SendHSPYCommand( HSPYSetCommandLength, HSPYSetCommand );
 			
 			break;
 					
