@@ -6,9 +6,10 @@
 
 
 // optional modules - remove include of header to remove module from build
-#include "SDP_adc.h"
-#include "SDP_CurrentSensor.h"
+#include "SDP_signalpath.h"
+#include "SDP_onewire.h"
 #include "SDP_uart.h"
+#include "SDP_adc.h"
 
 //Base Commands (to be implemented in every Blackfin App)
 #define ADI_SDP_CMD_GROUP_BASE				0xCA000000
@@ -76,7 +77,7 @@ static void mainInit(void)
 //	u64 boardInitOtpWord;
 
 	//Initiial GPIOs
-	initialGpiosForSignalPath();
+	//initialGpiosForSignalPath();
 
 
 	*pPORTG_FER = 0x0000;			// To provide compatibility with previous releases
@@ -124,6 +125,11 @@ static void processCommand(SDP_USB_HEADER *pUsbHeader)
 		case ADI_SDP_CMD_GROUP_ONEWIRE:					//For one wire main
 			processOneWireCmd(pUsbHeader);
 			break;
+		
+			//Compatiable with old version software, move this code to SDP_adc.c	
+		//case ADI_SDP_CMD_GROUP_SIGNALPATH:
+			//processSignalPathCmd(pUsbHeader);
+			//break;
 			
 		case ADI_SDP_CMD_GROUP_ADC:
 			processADCCmd(pUsbHeader);

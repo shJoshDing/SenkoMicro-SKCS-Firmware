@@ -2,6 +2,7 @@
 
 #include "SDP_std_include.h"
 #include "SDP_adc.h"
+#include "SDP_signalpath.h"
 #include <string.h>
 //#include "SDP_general_functions.h"
 
@@ -25,10 +26,10 @@
 
 
 
-bool bPowerVolt = false;
+//bool bPowerVolt = false;
 bool bAdcReset = false;
 bool bInitGpiosForADC = false;
-bool bInitGpiosForSignalPath = false;
+//bool bInitGpiosForSignalPath = false;
 
 
 u16 gAdcDataBuffer[MAX_SAMPLES_NUMBER_CAPTURE];
@@ -60,11 +61,12 @@ void processADCCmd(SDP_USB_HEADER *pUsbHeader)
 			
 		case ADI_SDP_CMD_ADC_SIGNAL_PATH:
 			//sportStreamFrom(pUsbHeader->paramArray);
-			adcSignalPath( pUsbHeader->numParam );
+			processSignalPathCmd(pUsbHeader->numParam);
 			break;
 			
 		case ADI_SDP_CMD_ADC_SIGPATH_INIT:
-			initialGpiosForSignalPath();
+			//initialGpiosForSignalPath();
+			processSignalPathCmd(0xFF);
 			break;
 			
 			
@@ -107,277 +109,7 @@ static void captureAdcData(u32 adcConvstFreq, u32 sampleNumbers )
 	}
 }
 
-//-----------------------------------------------------------------------------
-static void adcSignalPath( u32 pathID )
-{
-	if( !bInitGpiosForSignalPath )
-	{
-		initialGpiosForSignalPath();
-		
-		#ifdef DEBUG00
-		flashLed();
-		#endif
-	}
-	
-	//flashLed();
-	
-	switch ( pathID )
-	{
-		case ADC_VOUT_WITH_CAP:				//0X61
-			*pPORTHIO_CLEAR = GPIO_5;
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			//adcVoutCap( true );
-			break;
-		
-		case ADC_VOUT_WITHOUT_CAP:			//0X62
-			*pPORTHIO_SET = GPIO_5;
-			//adcVoutCap( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_VREF_WITH_CAP:				//0X63
-			*pPORTHIO_CLEAR = GPIO_5;
-			//adcVrefCap( true );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_VREF_WITHOUT_CAP:			//0X64
-			*pPORTHIO_SET = GPIO_5;
-			//adcVrefCap( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_VIN_TO_VOUT:				//0X65
-			//flashLed();
-			*pPORTHIO_CLEAR = ( GPIO_3|GPIO_11);
-			ssync();
-			ssync();
-			*pPORTHIO_SET = ( GPIO_2|GPIO_4 );
-			//*pPORTHIO_CLEAR |= RELAY_2;
-			//adcSetVinToVout( true );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_VIN_TO_VREF:				//0X66
-			*pPORTHIO_CLEAR = ( GPIO_3|GPIO_2);
-			ssync();
-			ssync();
-			*pPORTHIO_SET = ( GPIO_4 | GPIO_11 );
-			//flashLed();
-			//*pPORTHIO_CLEAR = RELAY_2;
-			//ssync();
-			//ssync();
-			//*pPORTHIO_SET = RELAY_1;
-			//ssync();
-			//ssync();
-			//adcSetVinToVout( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_CONFIG_TO_VOUT:			//0X67
-			*pPORTHIO_CLEAR = ( GPIO_11 );
-			ssync();
-			ssync();
-			*pPORTHIO_SET = ( GPIO_2|GPIO_3 | GPIO_4 );
-			//*pPORTHIO_CLEAR = RELAY_1;
 
-			//*pPORTHIO_SET = RELAY_2;
-			//ssync();
-			//ssync();
-			//adcSetConfigToVout( true );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_CONFIG_TO_VREF:			//0X68
-			//*pPORTHIO_CLEAR = ( GPIO_2|GPIO_3|GPIO_11 );
-			//*pPORTHIO_SET = (RELAY_1|RELAY_2);
-			//*pPORTHIO_SET |= RELAY_2;
-			//adcSetConfigToVout( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-		
-		case ADC_VDD_FROM_EXT:				//0x69
-			//*pPORTHIO_SET = GPIO_8;
-			ssync();
-			ssync();
-			//*pPORTHIO_CLEAR = GPIO_7;
-			bPowerVolt = true;
-			//*pPORTHIO_SET = RELAY_5;
-			//adcSetVddFromExt( true );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-		
-		case ADC_VDD_FROM_5V:
-			//*pPORTHIO_SET = GPIO_7;
-			ssync();
-			ssync();
-			//*pPORTHIO_CLEAR = GPIO_8;				//0x6A
-			bPowerVolt = false;
-			//*pPORTHIO_CLEAR = RELAY_5;
-			//adcSetVddFromExt( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_VDD_POWER_ON:	
-			if( bPowerVolt == true )
-			{
-				*pPORTHIO_SET = GPIO_8 | GPIO_10;
-				ssync();
-				//flashLed();
-				ssync();
-				*pPORTHIO_CLEAR = GPIO_7 | GPIO_9;
-			}
-			else if( bPowerVolt == false )
-			{
-				*pPORTHIO_SET = GPIO_7 | GPIO_10;
-				ssync();
-				ssync();
-				*pPORTHIO_CLEAR = GPIO_8 | GPIO_9;		
-			}
-		
-			//*pPORTHIO_SET = RELAY_POWERON;
-			//adcSetVddFromExt( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_VDD_POWER_OFF:					//0x6C
-			*pPORTHIO_CLEAR = GPIO_10;
-			//*pPORTHIO_SET = GPIO_7;
-			ssync();
-			ssync();
-			*pPORTHIO_SET = GPIO_8 | GPIO_7 | GPIO_9 ;
-			//adcSetVddFromExt( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_MODULE_510OUT:
-			//*pPORTHIO_SET = GPIO_2 | GPIO_3 | GPIO_11;
-			//*pPORTHIO_CLEAR = MODULE_15V_OUT;
-			//adcSetVddFromExt( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;			
-			
-		case ADC_MODULE_AMPOUT:
-			//*pPORTHIO_CLEAR = ( GPIO_3|GPIO_11|GPIO_4);
-			ssync();
-			ssync();
-			//*pPORTHIO_SET = ( GPIO_2 );
-			//*pPORTHIO_SET = MODULE_15V_OUT;
-			//adcSetVddFromExt( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-						
-		
-		case ADC_VIN_TO_VCS:
-			*pPORTHIO_CLEAR = ( GPIO_3|GPIO_2|GPIO_11);
-			ssync();
-			ssync();
-			*pPORTHIO_SET = ( GPIO_4 );
-			//*pPORTHIO_SET = MODULE_15V_OUT;
-			//adcSetVddFromExt( false );
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_SET_CURRENT_SENCE:
-			*pPORTHIO_CLEAR = GPIO_1;
-			ssync();
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;	
-			
-		case ADC_BYPASS_CURRENT_SENCE:
-			*pPORTHIO_SET = GPIO_1;
-			ssync();
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_VIN_TO_510OUT:
-			*pPORTHIO_CLEAR = GPIO_3;
-			ssync();
-			ssync();
-			*pPORTHIO_SET = GPIO_2 | GPIO_4 | GPIO_11;
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_VIN_TO_MOUT:
-			*pPORTHIO_CLEAR = GPIO_3 | GPIO_4 | GPIO_11;
-			ssync();
-			ssync();
-			*pPORTHIO_SET = GPIO_2;
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_CONFIG_TO_510OUT:
-			*pPORTHIO_SET = GPIO_2 | GPIO_3 | GPIO_4 | GPIO_11;
-			ssync();
-			ssync();
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_TRIM_RESULT_PASS:
-			*pPORTHIO_SET = GPIO_15;
-			ssync();
-			ssync();
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-			
-		case ADC_TRIM_RESULT_FAIL:
-			*pPORTHIO_CLEAR = GPIO_15;
-			ssync();
-			ssync();
-			#ifdef DEBUG
-			flashLed();
-			#endif
-			break;
-					
-			
-			
-		default:
-			break;
-	} 
-
-}
 		                 
 		                 
 //-----------------------------------------------------------------------------
@@ -528,66 +260,7 @@ static void initialGPIOsforADC(void)
 
 }
 
-//-----------------------------------------------------------------------------
-void initialGpiosForSignalPath(void)
-{
-	/*
-	//PH1 = RELAY_1	
-	*pPORTH_FER &= ~(RELAY_1);
-	*pPORTHIO_INEN &= ~RELAY_1;
-	*pPORTHIO_CLEAR |= RELAY_1;
-	*pPORTHIO_DIR |= RELAY_1;
-	
-	//PH2 = RELAY_2	
-	*pPORTH_FER &= ~(RELAY_2);
-	*pPORTHIO_INEN &= ~RELAY_2;
-	*pPORTHIO_SET |= RELAY_2;		//Vout/Vref to Config
-	*pPORTHIO_DIR |= RELAY_2;
-	
-	//PH3 = RELAY_3	
-	*pPORTH_FER &= ~(RELAY_3);
-	*pPORTHIO_INEN &= ~RELAY_3;
-	*pPORTHIO_SET |= RELAY_3;
-	*pPORTHIO_DIR |= RELAY_3;
-	
-	//PH6 = RELAY_4	
-	*pPORTH_FER &= ~(RELAY_4);
-	*pPORTHIO_INEN &= ~RELAY_4;
-	*pPORTHIO_SET |= RELAY_4;
-	*pPORTHIO_DIR |= RELAY_4;
-	
-	//PH5 = RELAY_5	
-	*pPORTH_FER &= ~(RELAY_5);
-	*pPORTHIO_INEN &= ~RELAY_5;
-	*pPORTHIO_SET |= RELAY_5;
-	*pPORTHIO_DIR |= RELAY_5;
-	
-	//PH10 = RELAY_POWERON	
-	*pPORTH_FER &= ~(RELAY_POWERON);
-	*pPORTHIO_INEN &= ~RELAY_POWERON;
-	*pPORTHIO_CLEAR |= RELAY_POWERON;
-	*pPORTHIO_DIR |= RELAY_POWERON;
-	//RELAY_POWERON
-	
-	//PH12 = MODULE_15V_OUT	
-	*pPORTH_FER &= ~(MODULE_15V_OUT);
-	*pPORTHIO_INEN &= ~MODULE_15V_OUT;
-	*pPORTHIO_CLEAR |= MODULE_15V_OUT;
-	*pPORTHIO_DIR |= MODULE_15V_OUT;
-	*/
-	
-	*pPORTH_FER &= ~(GPIO_1|GPIO_2|GPIO_3|GPIO_4|GPIO_5|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_11|GPIO_15);
-	*pPORTHIO_INEN &= ~(GPIO_1|GPIO_2|GPIO_3|GPIO_4|GPIO_5|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_11|GPIO_15);
-	
-	*pPORTHIO_CLEAR |= GPIO_1|GPIO_11|GPIO_5;
-	*pPORTHIO_SET |= GPIO_2|GPIO_3|GPIO_4|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_15;
-	
-	*pPORTHIO_DIR |= (GPIO_1|GPIO_2|GPIO_3|GPIO_4|GPIO_5|GPIO_7|GPIO_8|GPIO_9|GPIO_10|GPIO_11);
-	
-	
-	bInitGpiosForSignalPath = true;
-	
-}
+
 
 
 
