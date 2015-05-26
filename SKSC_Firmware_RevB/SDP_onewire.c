@@ -126,7 +126,7 @@ u8 sendBuf_OneWire[512];
 
 //---------------------------------------------------
 //Test Buffer
-u32 ttt = 0;
+//u32 ttt = 0;
 
 //---------------------------------------------------
 
@@ -211,7 +211,7 @@ void PulseWidthCounting(SDP_USB_HEADER *pUsbHeader)
 
 void I2CWriteSingle(SDP_USB_HEADER *pUsbHeader)
 {
-	flashLed();
+	//flashLed();
 	Write_Single(u32_PilotCount_1x, u32_PilotCount_3x, pUsbHeader->downByteCount, pUsbHeader->paramArray[0], pUsbHeader->paramArray[1]);	
 }
 
@@ -488,7 +488,7 @@ EX_INTERRUPT_HANDLER(CORE_TIMER_ISR)
 	//*pPORTGIO_TOGGLE = ControlPin;
 	b_Interrupted = true;
 	
-	ttt++;
+	//ttt++;
 	// Stop read operation, return timeout	
 	*pTIMER_DISABLE &= 0x0080;				//Disable Timer 7
 	*pTIMER_STATUS &= (~TRUN0);

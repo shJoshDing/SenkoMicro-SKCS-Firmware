@@ -7,7 +7,7 @@
 //#include "SDP_general_functions.h"
 
 
-#define DEBUG
+//#define DEBUG
 
 #define MAX_SAMPLES_NUMBER_CAPTURE 	2048
 #define SPI_CLK_PIN 				PF5

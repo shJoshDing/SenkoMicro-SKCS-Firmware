@@ -126,7 +126,7 @@ static void processCommand(SDP_USB_HEADER *pUsbHeader)
 			processOneWireCmd(pUsbHeader);
 			break;
 		
-			//Compatiable with old version software, move this code to SDP_adc.c	
+		//Compatiable with old version software, move this code to SDP_adc.c	
 		//case ADI_SDP_CMD_GROUP_SIGNALPATH:
 			//processSignalPathCmd(pUsbHeader);
 			//break;

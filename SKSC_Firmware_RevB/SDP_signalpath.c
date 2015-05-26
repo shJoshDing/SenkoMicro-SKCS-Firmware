@@ -3,6 +3,7 @@
 #include "SDP_signalpath.h"
 #include <string.h>
 
+//#define DEBUG
 
 bool bInitGpiosForSignalPath = false;
 bool bPowerVolt = false;
@@ -15,7 +16,7 @@ void processSignalPathCmd( u32 pathID )
 	{
 		initialGpiosForSignalPath();
 		
-		#ifdef DEBUG00
+		#ifdef DEBUG
 		flashLed();
 		#endif
 	}
