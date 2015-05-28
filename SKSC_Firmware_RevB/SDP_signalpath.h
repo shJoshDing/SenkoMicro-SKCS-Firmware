@@ -32,7 +32,7 @@
 #define ADC_TRIM_RESULT_PASS			0x77
 #define ADC_TRIM_RESULT_FAIL			0x78
 
-
+//PORTH
 #define GPIO_1						0x0002
 #define GPIO_2						0x0004
 #define GPIO_3						0x0008
@@ -43,8 +43,32 @@
 #define GPIO_8						0x0400
 #define GPIO_9						0x1000
 #define GPIO_10						0x4000
-#define GPIO_11						0x0040
+#define GPIO_13						0x8000
+#define GPIO_14						0x2000
 #define GPIO_15						0x0800
+#define GPIO_16						0x0100
+
+//PORTF
+#define GPIO_11						0x0200
+#define GPIO_12						0x1000
+#define GPIO_17						0x0080
+#define GPIO_18						0x0040
+#define GPIO_19						0x0008
+#define GPIO_20						0x0004
+#define GPIO_21						0x8000
+#define GPIO_22						0x4000
+#define GPIO_23						0x2000
+#define GPIO_25						0x0800
+#define GPIO_26						0x0400
+#define GPIO_27						0x0100
+
+//PORTG
+#define GPIO_24						0x4000
+#define GPIO_28						0x8000
+
+
+
+
 
 void initialGpiosForSignalPath(void);
 void processSignalPathCmd( u32 pathID );

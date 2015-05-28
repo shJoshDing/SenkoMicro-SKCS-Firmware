@@ -42,7 +42,7 @@ static SDP_VERSION version = {	0x0401,         // major rev
 								527,       // blackfin software rev		
 								__DATE__,  // date of build
 								__TIME__,  // time of build
-								0xf517,         // reserved
+								0xf400,         // reserved
 								0 };       // flags
 static void mainInit(void);
 void closeMainInit(void);
@@ -56,9 +56,12 @@ int main(void)
 {
 	
 	unsigned long usbStatus;
-	
-	
+		
 	mainInit();
+	
+	//flashLed();
+	//Set G4 on, firmware load success!
+	*pPORTHIO_SET = GPIO_16;
 	
 	while(1)
 	{
@@ -77,7 +80,7 @@ static void mainInit(void)
 //	u64 boardInitOtpWord;
 
 	//Initiial GPIOs
-	//initialGpiosForSignalPath();
+	initialGpiosForSignalPath();
 
 
 	*pPORTG_FER = 0x0000;			// To provide compatibility with previous releases
@@ -106,7 +109,7 @@ static void mainInit(void)
 	sdpSslUpdateSdramPll();
 	
 	//Initiial GPIOs
-	initialGpiosForSignalPath();
+	//initialGpiosForSignalPath();
 	
 }
 
