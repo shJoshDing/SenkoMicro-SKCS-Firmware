@@ -158,10 +158,12 @@ void processOneWireCmd(SDP_USB_HEADER *pUsbHeader)
 			break;
 			
 		case ADI_SDP_CMD_ONEWIER_FUSE_ON:
+			//flashLed();
 			FuseOn(pUsbHeader);
 			break;
 			
 		case ADI_SDP_CMD_ONEWIER_FUSE_OFF:
+			//flashLed();
 			FuseOff(pUsbHeader);
 			break;
 			

@@ -3,7 +3,7 @@
 #include "SDP_signalpath.h"
 #include <string.h>
 
-//#define DEBUG
+#define DEBUG
 
 bool bInitGpiosForSignalPath = false;
 bool bPowerVolt = false;
