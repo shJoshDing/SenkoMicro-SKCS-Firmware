@@ -7,6 +7,7 @@
 #include <drivers/usb/class/peripheral/vendor_specific/adi/bulkadi/adi_usb_bulkadi.h>
 #include "SDP_usb.h"
 #include <stdio.h>
+#include "SDP_signalpath.h"
 
 #define VR_FREQ       		0x3000
 #define VR_USB_WAKEUP 		0x0200
@@ -396,6 +397,10 @@ static void usbCallback(void *AppHandle, u32 Event, void *pArg)
 	    	// Disconnet event (pArg is NULL for this event)
 			usbConfiguredFlag = false;
 			g_nUSBState = USB_STATUS_DISCONNECTED;
+			
+			//Set G4 OFF, USB disconnect!
+			*pPORTHIO_CLEAR = GPIO_16;
+			
 			break;
 	}
 }

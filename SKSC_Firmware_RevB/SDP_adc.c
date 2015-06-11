@@ -9,7 +9,7 @@
 
 //#define DEBUG
 
-#define MAX_SAMPLES_NUMBER_CAPTURE 	2048
+#define MAX_SAMPLES_NUMBER_CAPTURE 	5000
 #define SPI_CLK_PIN 				PF5
 #define SPI_SS_PIN 					PF1
 #define SPI_MISO_PIN 				PF0
@@ -51,6 +51,7 @@ void processADCCmd(SDP_USB_HEADER *pUsbHeader)
 	{
 		case ADI_SDP_CMD_ADC_TRANSFER:
 			//captureAdcData( pUsbHeader->downByteCount, pUsbHeader->upByteCount);
+			adcReset();
 			captureAdcData( pUsbHeader->downByteCount, pUsbHeader->upByteCount);
 			break; 
 			
@@ -99,7 +100,7 @@ static void captureAdcData(u32 adcConvstFreq, u32 sampleNumbers )
 	for( i = 0; i<j ; i++ )
 	{
 		usbSendBulkData( (gAdcDataBuffer + 256*i),512,false);
-		waitMilliSec(50);
+		waitMilliSec(5);
 		//flashLed();
 	}
 	
@@ -137,7 +138,7 @@ static u16 signalSampleAdc( u32 adcConvstFreq )
 	
 	if( !bAdcReset )
 	{
-		adcReset();
+		//adcReset();
 		//bAdcReset = true;
 	}
 	

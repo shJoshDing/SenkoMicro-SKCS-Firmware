@@ -3,7 +3,7 @@
 #include "SDP_signalpath.h"
 #include <string.h>
 
-#define DEBUG
+//#define DEBUG
 
 bool bInitGpiosForSignalPath = false;
 bool bPowerVolt = false;
@@ -27,6 +27,8 @@ void processSignalPathCmd( u32 pathID )
 	{
 		case ADC_VOUT_WITH_CAP:				//0X61
 			*pPORTHIO_CLEAR = GPIO_5;
+			ssync();
+			ssync();
 			#ifdef DEBUG
 			flashLed();
 			#endif
@@ -35,6 +37,8 @@ void processSignalPathCmd( u32 pathID )
 		
 		case ADC_VOUT_WITHOUT_CAP:			//0X62
 			*pPORTHIO_SET = GPIO_5;
+			ssync();
+			ssync();
 			//adcVoutCap( false );
 			#ifdef DEBUG
 			flashLed();
@@ -43,6 +47,8 @@ void processSignalPathCmd( u32 pathID )
 			
 		case ADC_VREF_WITH_CAP:				//0X63
 			*pPORTHIO_CLEAR = GPIO_5;
+			ssync();
+			ssync();
 			//adcVrefCap( true );
 			#ifdef DEBUG
 			flashLed();
@@ -51,6 +57,8 @@ void processSignalPathCmd( u32 pathID )
 			
 		case ADC_VREF_WITHOUT_CAP:			//0X64
 			*pPORTHIO_SET = GPIO_5;
+			ssync();
+			ssync();
 			//adcVrefCap( false );
 			#ifdef DEBUG
 			flashLed();
@@ -63,6 +71,8 @@ void processSignalPathCmd( u32 pathID )
 			ssync();
 			ssync();
 			*pPORTHIO_SET = ( GPIO_3 );
+			ssync();
+			ssync();
 			//*pPORTHIO_CLEAR |= RELAY_2;
 			//adcSetVinToVout( true );
 			#ifdef DEBUG
@@ -72,8 +82,8 @@ void processSignalPathCmd( u32 pathID )
 			
 		case ADC_VIN_TO_VREF:				//0X66
 			//*pPORTHIO_CLEAR = ( GPIO_3|GPIO_2);
-			ssync();
-			ssync();
+			//ssync();
+			//ssync();
 			*pPORTHIO_SET = ( GPIO_2 | GPIO_3 | GPIO_4 );
 			//flashLed();
 			//*pPORTHIO_CLEAR = RELAY_2;
@@ -133,6 +143,8 @@ void processSignalPathCmd( u32 pathID )
 			ssync();
 			*pPORTHIO_CLEAR = ( GPIO_6 | GPIO_8);				//0x6A
 			bPowerVolt = false;
+			ssync();
+			ssync();
 			//*pPORTHIO_CLEAR = RELAY_5;
 			//adcSetVddFromExt( false );
 			#ifdef DEBUG
@@ -154,7 +166,9 @@ void processSignalPathCmd( u32 pathID )
 				*pPORTHIO_SET = GPIO_7;
 				ssync();
 				ssync();
-				*pPORTHIO_CLEAR = GPIO_6 | GPIO_8;		
+				*pPORTHIO_CLEAR = GPIO_6 | GPIO_8;	
+				ssync();
+				ssync();	
 			}
 		
 			//*pPORTHIO_SET = RELAY_POWERON;
@@ -203,6 +217,8 @@ void processSignalPathCmd( u32 pathID )
 			ssync();
 			ssync();
 			*pPORTHIO_SET = ( GPIO_2 | GPIO_3 );
+			ssync();
+			ssync();
 			//*pPORTHIO_SET = MODULE_15V_OUT;
 			//adcSetVddFromExt( false );
 			#ifdef DEBUG
@@ -241,6 +257,8 @@ void processSignalPathCmd( u32 pathID )
 			ssync();
 			ssync();
 			*pPORTHIO_SET = GPIO_3 | GPIO_4;
+			ssync();
+			ssync();
 			#ifdef DEBUG
 			flashLed();
 			#endif
