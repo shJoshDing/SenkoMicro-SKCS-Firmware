@@ -1,36 +1,43 @@
 #ifndef _SDP_SIGNALPATH_H_
 #define _SDP_SIGNALPATH_H_
 
-#define ADI_SDP_CMD_ADC_SIGNAL_PATH			0x6000000B
-#define ADI_SDP_CMD_ADC_RESET				0x6000000C
-#define ADI_SDP_CMD_ADC_SIGPATH_INIT		0x6000000D
+#define ADI_SDP_CMD_GROUP_SIGNALPATH		0x80000000
+#define ADI_SDP_CMD_SIGNALPATH_SET			0x8000000A
+#define ADI_SDP_CMD_SIGNALPATH_INIT			0x8000000B
+#define ADI_SDP_CMD_SIGNALPATH_GROUP		0x8000000C
+#define ADI_SDP_CMD_SIGNALPATH_SOCKET		0x8000000D
 
-#define ADC_VOUT_WITH_CAP				0x61
-#define ADC_VOUT_WITHOUT_CAP			0x62
-#define ADC_VREF_WITH_CAP				0x63
-#define ADC_VREF_WITHOUT_CAP			0x64
-#define ADC_VIN_TO_VOUT					0x65
-#define ADC_VIN_TO_VREF					0x66
-#define ADC_CONFIG_TO_VOUT				0x67
-#define ADC_CONFIG_TO_VREF				0x68
-#define ADC_VDD_FROM_EXT				0x69
-#define ADC_VDD_FROM_5V					0x6A
-#define ADC_VDD_POWER_ON				0x6B
-#define ADC_VDD_POWER_OFF				0x6C
-#define ADC_MODULE_510OUT				0x6D
-#define ADC_MODULE_AMPOUT				0x6E
-#define ADC_VIN_TO_VCS					0x6F
-#define ADC_SET_CURRENT_SENCE			0x70
-#define ADC_BYPASS_CURRENT_SENCE		0x71
+#define SP_VOUT_WITH_CAP				0x61
+#define SP_VOUT_WITHOUT_CAP				0x62
+#define SP_VREF_WITH_CAP				0x63
+#define SP_VREF_WITHOUT_CAP				0x64
+#define SP_VIN_TO_VOUT					0x65
+#define SP_VIN_TO_VREF					0x66
+#define SP_CONFIG_TO_VOUT				0x67
+#define SP_CONFIG_TO_VREF				0x68
+#define SP_VDD_FROM_EXT					0x69
+#define SP_VDD_FROM_5V					0x6A
+#define SP_VDD_POWER_ON					0x6B
+#define SP_VDD_POWER_OFF				0x6C
+#define SP_MODULE_510OUT				0x6D
+#define SP_MODULE_AMPOUT				0x6E
+#define SP_VIN_TO_VCS					0x6F
+#define SP_SET_CURRENT_SENCE			0x70
+#define SP_BYPASS_CURRENT_SENCE			0x71
+        
+#define SP_VIN_TO_510OUT				0x72
+#define SP_VIN_TO_MOUT					0x73
+#define SP_CONFIG_TO_510OUT				0x74
+#define SP_CONFIG_TO_MOUT				0x75
+#define SP_CONFIG_TO_VCS				0x76
+        
+#define SP_TRIM_RESULT_PASS				0x77
+#define SP_TRIM_RESULT_FAIL				0x78
 
-#define ADC_VIN_TO_510OUT				0x72
-#define ADC_VIN_TO_MOUT					0x73
-#define ADC_CONFIG_TO_510OUT			0x74
-#define ADC_CONFIG_TO_MOUT				0x75
-#define ADC_CONFIG_TO_VCS				0x76
+#define SP_MULTISITTE_GROUP_A			0x79
+#define SP_MULTISITTE_GROUP_B			0x7A
 
-#define ADC_TRIM_RESULT_PASS			0x77
-#define ADC_TRIM_RESULT_FAIL			0x78
+//#define SP_MULTISITTE_SOCKET1			0x81
 
 //PORTH
 #define GPIO_1						0x0002
@@ -69,9 +76,11 @@
 
 
 
-
+void processSignalPathCmd(SDP_USB_HEADER *pUsbHeader);
 void initialGpiosForSignalPath(void);
-void processSignalPathCmd( u32 pathID );
+void setSignalPath( u32 pathID );
+void multiSiteGroupSelect ( u32 groupID );
+void multiSiteSocketSelect ( u32 socketID );
 
 
 #endif

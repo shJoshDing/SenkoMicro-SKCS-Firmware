@@ -2,7 +2,7 @@
 
 #include "SDP_std_include.h"
 #include "SDP_adc.h"
-#include "SDP_signalpath.h"
+//#include "SDP_signalpath.h"
 #include <string.h>
 //#include "SDP_general_functions.h"
 
@@ -60,15 +60,15 @@ void processADCCmd(SDP_USB_HEADER *pUsbHeader)
 			adcReset();
 			break;
 			
-		case ADI_SDP_CMD_ADC_SIGNAL_PATH:
+		//case ADI_SDP_CMD_ADC_SIGNAL_PATH:
 			//sportStreamFrom(pUsbHeader->paramArray);
-			processSignalPathCmd(pUsbHeader->numParam);
-			break;
+			//processSignalPathCmd(pUsbHeader->numParam);
+			//break;
 			
-		case ADI_SDP_CMD_ADC_SIGPATH_INIT:
+		//case ADI_SDP_CMD_ADC_SIGPATH_INIT:
 			//initialGpiosForSignalPath();
-			processSignalPathCmd(0xFF);
-			break;
+			//processSignalPathCmd(0xFF);
+			//break;
 			
 			
 		default:
