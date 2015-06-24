@@ -389,26 +389,26 @@ void multiSiteSocketSelect( u32 socketID )
 {
 	switch ( socketID )
 	{
-		case 1:
+		case 0:
 			*pPORTFIO_SET = GPIO_17;
 			ssync();
 			ssync();
-			*pPORTFIO_CLEAR = GPIO_18 | GPIO_19 | GPIO_20 | GPIO_21;
+			*pPORTFIO_CLEAR = GPIO_18 | GPIO_19 | GPIO_22 | GPIO_21;
+			ssync();
+			ssync();
+			break;
+			
+		case 1:
+			*pPORTFIO_SET = GPIO_17 | GPIO_19;
+			ssync();
+			ssync();
+			*pPORTFIO_CLEAR = GPIO_18 | GPIO_22 | GPIO_21;
 			ssync();
 			ssync();
 			break;
 			
 		case 2:
-			*pPORTFIO_SET = GPIO_17 | GPIO_19;
-			ssync();
-			ssync();
-			*pPORTFIO_CLEAR = GPIO_18 | GPIO_20 | GPIO_21;
-			ssync();
-			ssync();
-			break;
-			
-		case 3:
-			*pPORTFIO_SET = GPIO_17 | GPIO_20;
+			*pPORTFIO_SET = GPIO_17 | GPIO_22;
 			ssync();
 			ssync();
 			*pPORTFIO_CLEAR = GPIO_18 | GPIO_19 | GPIO_21;
@@ -416,8 +416,8 @@ void multiSiteSocketSelect( u32 socketID )
 			ssync();
 			break;
 		
-		case 4:
-			*pPORTFIO_SET = GPIO_17 | GPIO_19 | GPIO_20;
+		case 3:
+			*pPORTFIO_SET = GPIO_17 | GPIO_19 | GPIO_22;
 			ssync();
 			ssync();
 			*pPORTFIO_CLEAR = GPIO_18  | GPIO_21;
@@ -425,26 +425,26 @@ void multiSiteSocketSelect( u32 socketID )
 			ssync();
 			break;
 			
-		case 5:
+		case 4:
 			*pPORTFIO_SET = GPIO_17 | GPIO_21;
 			ssync();
 			ssync();
-			*pPORTFIO_CLEAR = GPIO_18 | GPIO_19 | GPIO_20;
+			*pPORTFIO_CLEAR = GPIO_18 | GPIO_19 | GPIO_22;
 			ssync();
 			ssync();
 			break;
 			
-		case 6:
+		case 5:
 			*pPORTFIO_SET = GPIO_17 | GPIO_19 | GPIO_21;
 			ssync();
 			ssync();
-			*pPORTFIO_CLEAR = GPIO_18 | GPIO_20;
+			*pPORTFIO_CLEAR = GPIO_18 | GPIO_22;
 			ssync();
 			ssync();
 			break;
 		
-		case 7:
-			*pPORTFIO_SET = GPIO_17 | GPIO_20 | GPIO_21;
+		case 6:
+			*pPORTFIO_SET = GPIO_17 | GPIO_22 | GPIO_21;
 			ssync();
 			ssync();
 			*pPORTFIO_CLEAR = GPIO_18 | GPIO_19;
@@ -452,8 +452,8 @@ void multiSiteSocketSelect( u32 socketID )
 			ssync();
 			break;
 			
-		case 8:
-			*pPORTFIO_SET = GPIO_17 | GPIO_19 | GPIO_20 | GPIO_21;
+		case 7:
+			*pPORTFIO_SET = GPIO_17 | GPIO_19 | GPIO_22 | GPIO_21;
 			ssync();
 			ssync();
 			*pPORTFIO_CLEAR = GPIO_18 ;
@@ -461,26 +461,26 @@ void multiSiteSocketSelect( u32 socketID )
 			ssync();
 			break;
 			
-		case 9:
+		case 8:
 			*pPORTFIO_SET = GPIO_18;
 			ssync();
 			ssync();
-			*pPORTFIO_CLEAR = GPIO_17 | GPIO_19 | GPIO_20 | GPIO_21;
+			*pPORTFIO_CLEAR = GPIO_17 | GPIO_19 | GPIO_22 | GPIO_21;
+			ssync();
+			ssync();
+			break;
+			
+		case 9:
+			*pPORTFIO_SET = GPIO_18 | GPIO_19;
+			ssync();
+			ssync();
+			*pPORTFIO_CLEAR = GPIO_17 | GPIO_22 | GPIO_21;
 			ssync();
 			ssync();
 			break;
 			
 		case 10:
-			*pPORTFIO_SET = GPIO_18 | GPIO_19;
-			ssync();
-			ssync();
-			*pPORTFIO_CLEAR = GPIO_17 | GPIO_20 | GPIO_21;
-			ssync();
-			ssync();
-			break;
-			
-		case 11:
-			*pPORTFIO_SET = GPIO_18 | GPIO_20;
+			*pPORTFIO_SET = GPIO_18 | GPIO_22;
 			ssync();
 			ssync();
 			*pPORTFIO_CLEAR = GPIO_17 | GPIO_19 | GPIO_21;
@@ -488,8 +488,8 @@ void multiSiteSocketSelect( u32 socketID )
 			ssync();
 			break;
 		
-		case 12:
-			*pPORTFIO_SET = GPIO_18 | GPIO_19 | GPIO_20;
+		case 11:
+			*pPORTFIO_SET = GPIO_18 | GPIO_19 | GPIO_22;
 			ssync();
 			ssync();
 			*pPORTFIO_CLEAR = GPIO_17  | GPIO_21;
@@ -497,26 +497,26 @@ void multiSiteSocketSelect( u32 socketID )
 			ssync();
 			break;
 			
-		case 13:
+		case 12:
 			*pPORTFIO_SET = GPIO_18 | GPIO_21;
 			ssync();
 			ssync();
-			*pPORTFIO_CLEAR = GPIO_17 | GPIO_19 | GPIO_20;
+			*pPORTFIO_CLEAR = GPIO_17 | GPIO_19 | GPIO_22;
 			ssync();
 			ssync();
 			break;
 			
-		case 14:
+		case 13:
 			*pPORTFIO_SET = GPIO_18 | GPIO_19 | GPIO_21;
 			ssync();
 			ssync();
-			*pPORTFIO_CLEAR = GPIO_17 | GPIO_20;
+			*pPORTFIO_CLEAR = GPIO_17 | GPIO_22;
 			ssync();
 			ssync();
 			break;
 		
-		case 15:
-			*pPORTFIO_SET = GPIO_18 | GPIO_20 | GPIO_21;
+		case 14:
+			*pPORTFIO_SET = GPIO_18 | GPIO_22 | GPIO_21;
 			ssync();
 			ssync();
 			*pPORTFIO_CLEAR = GPIO_17 | GPIO_19;
@@ -524,8 +524,8 @@ void multiSiteSocketSelect( u32 socketID )
 			ssync();
 			break;
 			
-		case 16:
-			*pPORTFIO_SET = GPIO_18 | GPIO_19 | GPIO_20 | GPIO_21;
+		case 15:
+			*pPORTFIO_SET = GPIO_18 | GPIO_19 | GPIO_22 | GPIO_21;
 			ssync();
 			ssync();
 			*pPORTFIO_CLEAR = GPIO_17 ;
