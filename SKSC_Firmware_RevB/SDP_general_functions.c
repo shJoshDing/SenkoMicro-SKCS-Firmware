@@ -30,11 +30,11 @@ void flashLed(void)
 		latchValue = latchValue | 0x08;
 		writeToSdpLatch(latchValue);
 		//writeToSdpLatch(0x08); //LED on
-		waitMilliSec(50);
+		waitMilliSec(10);
 		latchValue = latchValue & 0xF7;
 		writeToSdpLatch(latchValue);
 		//writeToSdpLatch(0x00); //LED off
-		waitMilliSec(50);
+		waitMilliSec(10);
 	}
 
 }
