@@ -198,10 +198,10 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			flashLed();
 			#endif
 			
-			//pUartCommend = "OUTP 1\r\n";
-			//SendString( pUartCommend );
+			pUartCommend = "OUTP 1\r\n";
+			SendString( pUartCommend );
 			//HSPYSetCommand[] = {0x00,0x10,0x10,0x04,0x00,0x01,0x02,0x00,0x01,0x7A,0x45};
-			SendHSPYCommand( HSPYSetCommandLength, HSPYPowerOnOff );
+			//SendHSPYCommand( HSPYSetCommandLength, HSPYPowerOnOff );
 
 			break;
 			
@@ -210,9 +210,9 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			flashLed();
 			#endif
 			
-			//pUartCommend = "OUTP 0\r\n";
-			//SendString( pUartCommend );
-			SendHSPYCommand( HSPYSetCommandLength, HSPYPowerOnOff );
+			pUartCommend = "OUTP 0\r\n";
+			SendString( pUartCommend );
+			//SendHSPYCommand( HSPYSetCommandLength, HSPYPowerOnOff );
 			
 			break;
 		
