@@ -402,7 +402,7 @@ void multiSiteSocketSelect( u32 socketID )
 			*pPORTFIO_SET = GPIO_17 | GPIO_19;
 			ssync();
 			ssync();
-			*pPORTFIO_CLEAR = GPIO_18 | GPIO_22 | GPIO_21;
+			*pPORTFIO_CLEAR = GPIO_18 | GPIO_20 | GPIO_21;
 			ssync();
 			ssync();
 			break;

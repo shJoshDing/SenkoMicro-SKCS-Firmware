@@ -163,6 +163,7 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 {
 	u8 *pUartCommend;
 	u8 *pUartParameter;
+	u8 *pUartmAParameter;
 	u8 UartSetValue = 0;
 	u32 Voltage = 0;
 	u32 Current = 0;
@@ -226,7 +227,8 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			pUartParameter = "V\r\n";
 
 			SendString( pUartCommend );
-			HextoASCII( uParameter );
+			HextoASCII( uParameter/10 );
+			HextoASCII( uParameter%10 );
 			SendString( pUartParameter );
 			//Voltage = uParameter * 100;
 			
@@ -249,6 +251,7 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 			
 			pUartCommend = "CURR ";
 			pUartParameter = "A\r\n";
+			pUartmAParameter = "mA\r\n";
 			
 			if(uParameter<10)
 			{
@@ -256,12 +259,21 @@ static void uartWrite( u32 uCommend, u32 uParameter)
 				HextoASCII( uParameter );
 				SendString( pUartParameter );
 			}
-			else
+			else if(uParameter<100)
 			{
 				SendString( pUartCommend );
 				HextoASCII( uParameter/10 );
 				HextoASCII( uParameter%10 );
 				SendString( pUartParameter );
+			}
+			else if(uParameter>100)
+			{
+				SendString( pUartCommend );
+				HextoASCII( (uParameter)/100 );
+				//itoa(uParameter-1000), char, 10);
+				HextoASCII( (uParameter%100)/10 );
+				HextoASCII( (uParameter%100)%10 );
+				SendString( pUartmAParameter );
 			}
 			//Current = uParameter * 100;
 			//HSPYSetCommand[3] = 0x01;
